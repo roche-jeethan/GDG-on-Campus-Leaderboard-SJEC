@@ -76,9 +76,10 @@ export default function TopThreeSpotlight({
               className={`${config.order} w-full max-w-sm mx-auto lg:mx-0`}
             >
               <div
-                className={`${config.height} ${config.bgGradient} rounded-3xl p-8 
+                className={`
+                ${config.height} ${config.bgGradient} rounded-3xl p-8 
                 shadow-2xl transform hover:scale-105 transition-all duration-300
-                ring-4 ${config.ringColor} ring-opacity-50 hover:ring-opacity-75
+                ring-4 ${config.ringColor}
               `}
               >
                 <div className="text-center h-full flex flex-col justify-between">
@@ -123,18 +124,6 @@ export default function TopThreeSpotlight({
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div
-                  className={`
-                  absolute -top-6 left-1/2 transform -translate-x-1/2 
-                  w-16 h-16 ${config.bgGradient} rounded-full flex items-center justify-center
-                  ring-4 ring-gray-800 shadow-xl
-                `}
-                >
-                  <span className="text-white font-bold text-2xl">
-                    {student.rank}
-                  </span>
                 </div>
               </div>
             </div>
