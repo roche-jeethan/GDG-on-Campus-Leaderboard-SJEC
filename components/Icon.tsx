@@ -8,6 +8,7 @@ export default function GDGlogo() {
         alt={"GDG logo"}
         width={69}
         height={69}
+        unoptimized
       />
     </>
   );

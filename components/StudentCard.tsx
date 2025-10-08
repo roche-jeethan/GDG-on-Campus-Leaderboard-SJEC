@@ -15,56 +15,6 @@ export default function StudentCard({
   isTopThree = false,
   position,
 }: StudentCardProps) {
-  const getPositionStyles = () => {
-    if (!isTopThree) return "";
-
-    switch (position) {
-      case "gold":
-        return "bg-gradient-google-yellow shadow-google-yellow";
-      case "silver":
-        return "bg-gradient-silver shadow-silver";
-      case "bronze":
-        return "bg-gradient-bronze shadow-bronze";
-      default:
-        return "";
-    }
-  };
-
-  const getPositionIcon = () => {
-    if (!isTopThree) return null;
-
-    const iconClass = "h-6 w-6 text-white";
-    switch (position) {
-      case "gold":
-        return <Award className={`${iconClass} drop-shadow-lg`} />;
-      case "silver":
-        return <Award className={`${iconClass} drop-shadow-lg`} />;
-      case "bronze":
-        return <Award className={`${iconClass} drop-shadow-lg`} />;
-      default:
-        return null;
-    }
-  };
-
-  const getRankDisplay = () => {
-    if (isTopThree) {
-      return (
-        <div
-          className={`flex items-center space-x-2 px-3 py-1 rounded-full text-white font-bold ${getPositionStyles()}`}
-        >
-          {getPositionIcon()}
-          <span>#{student.rank}</span>
-        </div>
-      );
-    }
-
-    return (
-      <div className="flex items-center justify-center w-10 h-10 bg-gradient-google-blue rounded-full text-white font-bold text-lg shadow-lg">
-        {student.rank}
-      </div>
-    );
-  };
-
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -73,22 +23,30 @@ export default function StudentCard({
     }
   };
 
-  const lastUpdated = new Date(student.last_updated);
+  const formatLastUpdated = () => {
+    try {
+      const lastUpdated = new Date(student.last_updated);
+
+      if (isNaN(lastUpdated.getTime())) {
+        return "Recently updated";
+      }
+
+      return `Updated ${formatDistanceToNow(lastUpdated, { addSuffix: true })}`;
+    } catch (error) {
+      return "Recently updated";
+    }
+  };
 
   return (
     <div
       className={`
       relative bg-gray-800 rounded-xl shadow-lg hover:shadow-xl 
       transition-all duration-300 transform hover:-translate-y-1 border border-gray-700
-      ${isTopThree ? "ring-2 ring-opacity-50" : ""}
-      ${position === "gold" ? "ring-amber-400" : ""}
-      ${position === "silver" ? "ring-gray-400" : ""}
-      ${position === "bronze" ? "ring-amber-600" : ""}
     `}
     >
       <div className="p-6">
         <div className="flex items-start justify-between mb-4">
-          {getRankDisplay()}
+          <div className="text-sm text-gray-400">Rank #{student.rank}</div>
 
           <div className="flex items-center space-x-2">
             <button
@@ -143,28 +101,16 @@ export default function StudentCard({
             <div className="flex items-center justify-center mb-1">
               <Award className="h-4 w-4 text-google-green mr-1" />
             </div>
-            <div className="text-xl font-bold text-white">
-              {student.score}
-            </div>
+            <div className="text-xl font-bold text-white">{student.score}</div>
             <div className="text-xs text-gray-400">Score</div>
           </div>
         </div>
 
         <div className="flex items-center justify-center text-xs text-gray-500">
           <Clock className="h-3 w-3 mr-1" />
-          <span>
-            Updated {formatDistanceToNow(lastUpdated, { addSuffix: true })}
-          </span>
+          <span>{formatLastUpdated()}</span>
         </div>
       </div>
-
-      {isTopThree && (
-        <div
-          className={`absolute -top-2 -right-2 w-8 h-8 rounded-full ${getPositionStyles()} flex items-center justify-center shadow-lg`}
-        >
-          {getPositionIcon()}
-        </div>
-      )}
     </div>
   );
 }
