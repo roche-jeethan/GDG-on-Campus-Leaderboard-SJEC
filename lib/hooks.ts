@@ -12,6 +12,7 @@ async function fetchLeaderboardFromAPI(): Promise<Student[]> {
     headers: {
       "Content-Type": "application/json",
     },
+    cache: "force-cache",
   });
 
   if (!response.ok) {
@@ -26,12 +27,15 @@ export function useLeaderboard() {
   return useQuery({
     queryKey: QUERY_KEYS.leaderboard,
     queryFn: fetchLeaderboardFromAPI,
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
+    staleTime: 10 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-    refetchInterval: 10 * 60 * 1000,
+    refetchInterval: false,
     refetchIntervalInBackground: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 }
 
@@ -42,6 +46,7 @@ export function useRefreshLeaderboard() {
     mutationFn: fetchLeaderboardFromAPI,
     onSuccess: (data) => {
       queryClient.setQueryData(QUERY_KEYS.leaderboard, data);
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.leaderboard });
     },
     onError: (error) => {
       console.error("Failed to refresh leaderboard:", error);
@@ -53,11 +58,14 @@ export function usePrefetchLeaderboard() {
   const queryClient = useQueryClient();
 
   return () => {
-    queryClient.prefetchQuery({
-      queryKey: QUERY_KEYS.leaderboard,
-      queryFn: fetchLeaderboardFromAPI,
-      staleTime: 5 * 60 * 1000,
-    });
+    const existingData = queryClient.getQueryData(QUERY_KEYS.leaderboard);
+    if (!existingData) {
+      queryClient.prefetchQuery({
+        queryKey: QUERY_KEYS.leaderboard,
+        queryFn: fetchLeaderboardFromAPI,
+        staleTime: 10 * 60 * 1000,
+      });
+    }
   };
 }
 
