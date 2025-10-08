@@ -114,7 +114,7 @@ export default function TopThreeSpotlight({
                         <div className="font-bold text-2xl mb-1">
                           {student.arcade_games}
                         </div>
-                        <div className="opacity-80">Games</div>
+                        <div className="opacity-80">Arcade Games</div>
                       </div>
                       <div className="text-center">
                         <div className="font-bold text-3xl mb-1">
