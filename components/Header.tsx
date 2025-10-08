@@ -78,7 +78,7 @@ export default function Header({
               <span className="text-white">{totalStudents} Students</span>
             </div>
 
-            {onRefresh && (
+            {/* {onRefresh && (
               <button
                 onClick={onRefresh}
                 disabled={isRefreshing}
@@ -94,7 +94,7 @@ export default function Header({
                   {isRefreshing ? "Refreshing..." : "Refresh"}
                 </span>
               </button>
-            )}
+            )} */}
           </div>
 
           {lastUpdated && (
