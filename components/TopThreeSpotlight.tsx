@@ -76,8 +76,7 @@ export default function TopThreeSpotlight({
               className={`${config.order} w-full max-w-sm mx-auto lg:mx-0`}
             >
               <div
-                className={`
-                relative ${config.height} ${config.bgGradient} rounded-3xl p-8 
+                className={`${config.height} ${config.bgGradient} rounded-3xl p-8 
                 shadow-2xl transform hover:scale-105 transition-all duration-300
                 ring-4 ${config.ringColor} ring-opacity-50 hover:ring-opacity-75
               `}

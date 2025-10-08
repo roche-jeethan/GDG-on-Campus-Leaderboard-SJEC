@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme inline {
+  --font-google-sans: var(--font-google-sans);
+}
+
 * {
   scroll-behavior: smooth;
 }
