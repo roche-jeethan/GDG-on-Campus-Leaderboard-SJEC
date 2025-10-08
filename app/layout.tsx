@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import QueryProvider from "@/components/QueryProvider";
 import "./globals.css";
 
 const googleSans = localFont({
@@ -43,7 +44,7 @@ export default function RootLayout({
       <body
         className={`${googleSans.variable} antialiased min-h-screen bg-gray-900 text-white font-sans`}
       >
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );
