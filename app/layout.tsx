@@ -4,15 +4,7 @@ import QueryProvider from "@/components/QueryProvider";
 import "./globals.css";
 
 const googleSans = localFont({
-  src: [
-    {
-      path: "../public/fonts/GoogleSans-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-  ],
-  variable: "--font-google-sans",
-  display: "swap",
+  src: "../public/fonts/GoogleSans-Regular.ttf",
 });
 
 export const metadata: Metadata = {
@@ -42,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${googleSans.variable} antialiased min-h-screen bg-gray-900 text-white font-sans`}
+        className={`${googleSans.className} antialiased min-h-screen bg-gray-900 text-white font-sans`}
       >
         <QueryProvider>{children}</QueryProvider>
       </body>
