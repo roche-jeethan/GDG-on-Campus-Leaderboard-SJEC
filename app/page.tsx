@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Header from "@/components/Header";
 import TopThreeSpotlight from "@/components/TopThreeSpotlight";
 import StudentCard from "@/components/StudentCard";
 import SearchAndFilters from "@/components/SearchAndFilters";
+import Confetti, { celebrateTopThree } from "@/components/Confetti";
 import {
   LoadingState,
   ErrorState,
@@ -22,6 +23,8 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortField, setSortField] = useState<SortField>("rank");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [hasTriggeredConfetti, setHasTriggeredConfetti] = useState(false);
 
   const {
     data: students = [],
@@ -37,6 +40,14 @@ export default function Home() {
     let filtered = searchStudents(students, searchQuery);
     return sortStudents(filtered, sortField, sortDirection);
   }, [students, searchQuery, sortField, sortDirection]);
+
+  useEffect(() => {
+    if (students.length > 0 && !isLoading && !hasTriggeredConfetti) {
+      celebrateTopThree();
+      setShowConfetti(true);
+      setHasTriggeredConfetti(true);
+    }
+  }, [students.length, isLoading, hasTriggeredConfetti]);
 
   const handleSort = (field: SortField, direction: SortDirection) => {
     setSortField(field);
@@ -60,6 +71,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-900">
+      <Confetti
+        trigger={showConfetti}
+        onComplete={() => setShowConfetti(false)}
+      />
+
       <Header
         totalStudents={students.length}
         lastUpdated={lastUpdated}
