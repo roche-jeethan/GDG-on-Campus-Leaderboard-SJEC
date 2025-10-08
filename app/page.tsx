@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Header from "@/components/Header";
 import TopThreeSpotlight from "@/components/TopThreeSpotlight";
 import StudentCard from "@/components/StudentCard";
@@ -9,37 +9,29 @@ import {
   LoadingState,
   ErrorState,
   EmptyState,
-  SkeletonCard,
 } from "@/components/LoadingStates";
-import { fetchLeaderboardData, searchStudents, sortStudents } from "@/lib/api";
-import { Student, SortField, SortDirection } from "@/lib/types";
+import {
+  useLeaderboard,
+  useRefreshLeaderboard,
+  searchStudents,
+  sortStudents,
+} from "@/lib/hooks";
+import { SortField, SortDirection } from "@/lib/types";
 
 export default function Home() {
-  const [students, setStudents] = useState<Student[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortField, setSortField] = useState<SortField>("rank");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
-  const [lastFetched, setLastFetched] = useState<Date | null>(null);
 
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await fetchLeaderboardData();
-      setStudents(data);
-      setLastFetched(new Date());
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load data");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    data: students = [],
+    isLoading,
+    error,
+    dataUpdatedAt,
+    isRefetching,
+  } = useLeaderboard();
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  const refreshMutation = useRefreshLeaderboard();
 
   const filteredAndSortedStudents = useMemo(() => {
     let filtered = searchStudents(students, searchQuery);
@@ -51,21 +43,28 @@ export default function Home() {
     setSortDirection(direction);
   };
 
-  if (loading) {
+  const handleRetry = () => {
+    refreshMutation.mutate();
+  };
+
+  if (isLoading) {
     return <LoadingState />;
   }
 
-  if (error) {
-    return <ErrorState onRetry={loadData} />;
+  if (error && !students.length) {
+    return <ErrorState onRetry={handleRetry} />;
   }
 
   const remainingStudents = filteredAndSortedStudents.slice(3);
+  const lastUpdated = dataUpdatedAt ? new Date(dataUpdatedAt) : undefined;
 
   return (
     <div className="min-h-screen bg-gray-900">
       <Header
         totalStudents={students.length}
-        lastUpdated={lastFetched || undefined}
+        lastUpdated={lastUpdated}
+        isRefreshing={isRefetching || refreshMutation.isPending}
+        onRefresh={handleRetry}
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
