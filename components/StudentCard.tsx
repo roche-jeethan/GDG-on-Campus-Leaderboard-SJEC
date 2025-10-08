@@ -81,7 +81,7 @@ export default function StudentCard({
       relative bg-gray-800 rounded-xl shadow-lg hover:shadow-xl 
       transition-all duration-300 transform hover:-translate-y-1 border border-gray-700
       ${isTopThree ? "ring-2 ring-opacity-50" : ""}
-      ${position === "gold" ? "ring-google-yellow" : ""}
+      ${position === "gold" ? "ring-amber-400" : ""}
       ${position === "silver" ? "ring-gray-400" : ""}
       ${position === "bronze" ? "ring-amber-600" : ""}
     `}
@@ -136,11 +136,14 @@ export default function StudentCard({
             <div className="text-xl font-bold text-white">
               {student.arcade_games}
             </div>
-            <div className="text-xs text-gray-400">Games</div>
+            <div className="text-xs text-gray-400">Arcade Games</div>
           </div>
 
           <div className="text-center">
-            <div className="text-2xl font-bold bg-gradient-to-r from-google-red to-google-blue bg-clip-text text-transparent">
+            <div className="flex items-center justify-center mb-1">
+              <Award className="h-4 w-4 text-google-green mr-1" />
+            </div>
+            <div className="text-xl font-bold text-white">
               {student.score}
             </div>
             <div className="text-xs text-gray-400">Score</div>

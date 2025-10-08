@@ -18,27 +18,27 @@ export default function TopThreeSpotlight({
     switch (rank) {
       case 1:
         return {
-          bgGradient: "bg-gradient-google-yellow",
-          icon: <Crown className="h-8 w-8 text-google-yellow" />,
-          title: "Champion",
-          ringColor: "ring-google-yellow",
+          bgGradient: "bg-gradient-primary",
+          icon: <Crown className="h-8 w-8 text-amber-400" />,
+          title: "First",
+          ringColor: "ring-amber-400",
           height: "h-72",
-          order: "order-2",
+          order: "order-1",
         };
       case 2:
         return {
           bgGradient: "bg-gradient-silver",
           icon: <Award className="h-6 w-6 text-gray-400" />,
-          title: "Runner-up",
+          title: "Second",
           ringColor: "ring-gray-400",
           height: "h-64",
-          order: "order-1",
+          order: "order-2",
         };
       case 3:
         return {
           bgGradient: "bg-gradient-bronze",
           icon: <Medal className="h-6 w-6 text-amber-700" />,
-          title: "Third Place",
+          title: "Third",
           ringColor: "ring-amber-600",
           height: "h-56",
           order: "order-3",
@@ -66,7 +66,7 @@ export default function TopThreeSpotlight({
         </p>
       </div>
 
-      <div className="flex flex-col lg:flex-row items-end justify-center gap-8 lg:gap-12 px-4">
+      <div className="flex flex-col lg:flex-row items-end justify-center sm:gap-4 gap-8 lg:gap-12 gap-y-32 px-4">
         {topThree.map((student) => {
           const config = getPositionConfig(student.rank);
 

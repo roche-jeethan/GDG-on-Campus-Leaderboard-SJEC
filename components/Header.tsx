@@ -1,5 +1,5 @@
 "use client";
-
+import GDGlogo from "./Icon";
 import { Trophy, Users } from "lucide-react";
 
 interface HeaderProps {
@@ -15,7 +15,7 @@ export default function Header({ totalStudents, lastUpdated }: HeaderProps) {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-gradient-to-r from-google-blue to-google-green rounded-xl shadow-lg">
-                <Trophy className="h-8 w-8 text-white" />
+                <GDGlogo/>
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-white">
