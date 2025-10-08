@@ -1,13 +1,14 @@
 "use client";
 
 import { Trophy, Users, Award, Gamepad2 } from "lucide-react";
+import GDGlogo from "./Icon";
 
 export function LoadingState() {
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">
       <div className="text-center">
-        <div className="animate-bounce mb-8">
-          <Trophy className="h-16 w-16 text-google-blue mx-auto" />
+        <div className="animate-bounce mb-8 flex items-center justify-center">
+          <GDGlogo/>
         </div>
 
         <h2 className="text-2xl font-bold text-white mb-4">
