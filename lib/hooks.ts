@@ -12,7 +12,6 @@ async function fetchLeaderboardFromAPI(): Promise<Student[]> {
     headers: {
       "Content-Type": "application/json",
     },
-    cache: "force-cache",
   });
 
   if (!response.ok) {
@@ -27,15 +26,15 @@ export function useLeaderboard() {
   return useQuery({
     queryKey: QUERY_KEYS.leaderboard,
     queryFn: fetchLeaderboardFromAPI,
-    staleTime: 10 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-    refetchInterval: false,
-    refetchIntervalInBackground: false,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
+    refetchInterval: 2 * 60 * 1000,
+    refetchIntervalInBackground: true,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
   });
 }
 
@@ -58,14 +57,11 @@ export function usePrefetchLeaderboard() {
   const queryClient = useQueryClient();
 
   return () => {
-    const existingData = queryClient.getQueryData(QUERY_KEYS.leaderboard);
-    if (!existingData) {
-      queryClient.prefetchQuery({
-        queryKey: QUERY_KEYS.leaderboard,
-        queryFn: fetchLeaderboardFromAPI,
-        staleTime: 10 * 60 * 1000,
-      });
-    }
+    queryClient.prefetchQuery({
+      queryKey: QUERY_KEYS.leaderboard,
+      queryFn: fetchLeaderboardFromAPI,
+      staleTime: 5 * 60 * 1000,
+    });
   };
 }
 
