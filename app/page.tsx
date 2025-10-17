@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import Header from "@/components/Header";
 import TopThreeSpotlight from "@/components/TopThreeSpotlight";
+import CompletedList from "@/components/CompletedList";
 import StudentCard from "@/components/StudentCard";
 import SearchAndFilters from "@/components/SearchAndFilters";
 import Confetti, { celebrateTopThree } from "@/components/Confetti";
@@ -16,6 +17,8 @@ import {
   useRefreshLeaderboard,
   searchStudents,
   sortStudents,
+  filterCompletedStudents,
+  filterActiveStudents,
 } from "@/lib/hooks";
 import { SortField, SortDirection } from "@/lib/types";
 
@@ -36,10 +39,21 @@ export default function Home() {
 
   const refreshMutation = useRefreshLeaderboard();
 
-  const filteredAndSortedStudents = useMemo(() => {
-    let filtered = searchStudents(students, searchQuery);
+  const { activeStudents, completedStudents } = useMemo(() => {
+    const active = filterActiveStudents(students);
+    const completed = filterCompletedStudents(students);
+    return { activeStudents: active, completedStudents: completed };
+  }, [students]);
+
+  const filteredAndSortedActiveStudents = useMemo(() => {
+    let filtered = searchStudents(activeStudents, searchQuery);
     return sortStudents(filtered, sortField, sortDirection);
-  }, [students, searchQuery, sortField, sortDirection]);
+  }, [activeStudents, searchQuery, sortField, sortDirection]);
+
+  const filteredAndSortedCompletedStudents = useMemo(() => {
+    let filtered = searchStudents(completedStudents, searchQuery);
+    return sortStudents(filtered, sortField, sortDirection);
+  }, [completedStudents, searchQuery, sortField, sortDirection]);
 
   useEffect(() => {
     if (students.length > 0 && !isLoading && !hasTriggeredConfetti) {
@@ -66,7 +80,7 @@ export default function Home() {
     return <ErrorState onRetry={handleRetry} />;
   }
 
-  const remainingStudents = filteredAndSortedStudents.slice(3);
+  const remainingActiveStudents = filteredAndSortedActiveStudents.slice(3);
   const lastUpdated = dataUpdatedAt ? new Date(dataUpdatedAt) : undefined;
 
   return (
@@ -84,7 +98,7 @@ export default function Home() {
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <TopThreeSpotlight students={filteredAndSortedStudents} />
+        <TopThreeSpotlight students={filteredAndSortedActiveStudents} />
 
         <SearchAndFilters
           searchQuery={searchQuery}
@@ -92,22 +106,28 @@ export default function Home() {
           sortField={sortField}
           sortDirection={sortDirection}
           onSort={handleSort}
-          resultCount={filteredAndSortedStudents.length}
+          resultCount={
+            filteredAndSortedActiveStudents.length +
+            filteredAndSortedCompletedStudents.length
+          }
           totalCount={students.length}
         />
 
-        {filteredAndSortedStudents.length === 0 ? (
+        <CompletedList students={filteredAndSortedCompletedStudents} />
+
+        {filteredAndSortedActiveStudents.length === 0 &&
+        filteredAndSortedCompletedStudents.length === 0 ? (
           <EmptyState />
         ) : (
           <>
-            {remainingStudents.length > 0 && (
+            {remainingActiveStudents.length > 0 && (
               <div>
                 <h2 className="text-2xl font-bold text-white mb-6">
                   All Participants
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {remainingStudents.map((student) => (
+                  {remainingActiveStudents.map((student) => (
                     <StudentCard
                       key={`${student.rank}-${student.email}`}
                       student={student}

@@ -109,4 +109,12 @@ export function sortStudents(
   });
 }
 
+export function filterCompletedStudents(students: Student[]): Student[] {
+  return students.filter((student) => student.score >= 20);
+}
+
+export function filterActiveStudents(students: Student[]): Student[] {
+  return students.filter((student) => student.score < 20);
+}
+
 export { QUERY_KEYS };
