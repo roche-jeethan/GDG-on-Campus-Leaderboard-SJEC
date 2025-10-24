@@ -2,6 +2,7 @@
 
 import { Student } from "@/lib/types";
 import { Trophy, Award, Gamepad2, CheckCircle } from "lucide-react";
+import { getCompletedGradient } from "@/lib/colors";
 
 interface CompletedListProps {
   students: Student[];
@@ -10,13 +11,15 @@ interface CompletedListProps {
 export default function CompletedList({ students }: CompletedListProps) {
   if (students.length === 0) return null;
 
+  function getParticipantBorderColor(rank: number) {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <div className="mb-12">
       <div className="text-center mb-8">
         <div className="flex items-center justify-center gap-3 mb-4">
-          <h2 className="text-3xl">
-            Course Completed - Hall of Fame
-          </h2>
+          <h2 className="text-3xl">Course Completed - Hall of Fame</h2>
         </div>
         <p className="text-gray-300 text-lg">
           {students.length} participant{students.length !== 1 ? "s" : ""}{" "}
@@ -25,10 +28,10 @@ export default function CompletedList({ students }: CompletedListProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {students.map((student) => (
+        {students.map((student, index) => (
           <div
             key={`completed-${student.email}`}
-            className="relative bg-gradient-to-br from-google-yellow/20 via-google-green/20 to-google-blue/20 rounded-xl shadow-lg border-2 border-google-yellow/50 overflow-hidden group hover:scale-105 transition-transform duration-300"
+            className={`relative bg-gray-800rounded-xl shadow-lg border-white/20 overflow-hidden group hover:scale-105 transition-transform duration-300 border-2 ${getCompletedGradient(student.rank)}`}
           >
             <div className="absolute top-0 right-0 bg-google-yellow text-gray-900 px-3 py-1 rounded-bl-lg font-bold text-sm flex items-center gap-1">
               <CheckCircle className="h-4 w-4" />

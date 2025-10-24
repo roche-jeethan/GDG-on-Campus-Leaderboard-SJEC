@@ -3,6 +3,7 @@
 import { Student } from "@/lib/types";
 import { ExternalLink, Mail, Award, Gamepad2, Clock } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { getParticipantBorderColor } from "@/lib/colors";
 
 interface StudentCardProps {
   student: Student;
@@ -41,7 +42,8 @@ export default function StudentCard({
     <div
       className={`
       relative bg-gray-800 rounded-xl shadow-lg hover:shadow-xl 
-      transition-all duration-300 transform hover:-translate-y-1 border border-gray-700
+      transition-all duration-300 transform hover:-translate-y-1 border-2
+      ${getParticipantBorderColor(student.rank)}
     `}
     >
       <div className="p-6">

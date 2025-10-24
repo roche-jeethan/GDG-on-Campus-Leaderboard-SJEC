@@ -2,6 +2,7 @@
 
 import { Student } from "@/lib/types";
 import { Crown, Award, Medal } from "lucide-react";
+import { RANK_COLORS } from "@/lib/colors";
 
 interface TopThreeSpotlightProps {
   students: Student[];
@@ -18,37 +19,36 @@ export default function TopThreeSpotlight({
     switch (rank) {
       case 1:
         return {
-          bgGradient: "bg-gradient-primary",
-          icon: <Crown className="h-8 w-8 text-amber-400" />,
-          title: "First",
-          ringColor: "ring-amber-400",
+          bgGradient: RANK_COLORS.gold.bg,
+          borderColor: RANK_COLORS.gold.border,
+          icon: <Crown className="h-8 w-8 text-white" />,
+          title: "Champion",
           height: "h-72",
-          order: "order-1",
+          order: "order-2",
         };
       case 2:
         return {
-          bgGradient: "bg-gradient-silver",
-          icon: <Award className="h-6 w-6 text-gray-400" />,
-          title: "Second",
-          ringColor: "ring-gray-400",
+          bgGradient: RANK_COLORS.silver.bg,
+          borderColor: RANK_COLORS.silver.border,
+          icon: <Award className="h-6 w-6 text-white" />,
+          title: "Runner-up",
           height: "h-64",
-          order: "order-2",
+          order: "order-1",
         };
       case 3:
         return {
-          bgGradient: "bg-gradient-bronze",
-          icon: <Medal className="h-6 w-6 text-amber-700" />,
-          title: "Third",
-          ringColor: "ring-amber-600",
+          bgGradient: RANK_COLORS.bronze.bg,
+          borderColor: RANK_COLORS.bronze.border,
+          icon: <Medal className="h-6 w-6 text-white" />,
+          title: "Third Place",
           height: "h-56",
           order: "order-3",
         };
       default:
         return {
           bgGradient: "bg-gradient-google-blue",
-          icon: <Award className="h-6 w-6 text-google-blue" />,
+          icon: <Award className="h-6 w-6 text-white" />,
           title: "Top Performer",
-          ringColor: "ring-google-blue",
           height: "h-48",
           order: "order-last",
         };
@@ -79,7 +79,7 @@ export default function TopThreeSpotlight({
                 className={`
                 ${config.height} ${config.bgGradient} rounded-3xl p-8 
                 shadow-2xl transform hover:scale-105 transition-all duration-300
-                ring-4 ${config.ringColor}
+                border-2 ${config.borderColor}
               `}
               >
                 <div className="text-center h-full flex flex-col justify-between">
