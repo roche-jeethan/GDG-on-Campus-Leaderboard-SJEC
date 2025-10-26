@@ -1,8 +1,7 @@
 "use client";
 
 import { Student } from "@/lib/types";
-import { Crown, Award, Medal, Trophy } from "lucide-react";
-import { RANK_COLORS } from "@/lib/colors";
+import { Trophy } from "lucide-react";
 
 interface TopThreeSpotlightProps {
   students: Student[];
@@ -19,37 +18,21 @@ export default function TopThreeSpotlight({
     switch (rank) {
       case 1:
         return {
-          bgGradient: RANK_COLORS.gold.bg,
-          borderColor: RANK_COLORS.gold.border,
-          icon: <Crown className="h-8 w-8 text-yellow-400" />,
-          title: "Champion",
           height: "h-72",
           order: "order-2",
         };
       case 2:
         return {
-          bgGradient: RANK_COLORS.silver.bg,
-          borderColor: RANK_COLORS.silver.border,
-          icon: <Award className="h-6 w-6 text-gray-400" />,
-          title: "Runner-up",
           height: "h-64",
           order: "order-1",
         };
       case 3:
         return {
-          bgGradient: RANK_COLORS.bronze.bg,
-          borderColor: RANK_COLORS.bronze.border,
-          icon: <Medal className="h-6 w-6 text-amber-700" />,
-          title: "Third Place",
           height: "h-56",
           order: "order-3",
         };
       default:
         return {
-          bgGradient: "bg-gradient-google-blue",
-          borderColor: "border-google-blue",
-          icon: <Award className="h-6 w-6 text-white" />,
-          title: "Top Performer",
           height: "h-48",
           order: "order-last",
         };
@@ -60,11 +43,11 @@ export default function TopThreeSpotlight({
     <div className="mb-16">
       <div className="text-center mb-12">
         <div className="flex items-center justify-center gap-3 mb-4">
-          <Trophy className="h-8 w-8 text-google-yellow" />
+          <Trophy className="h-8 w-8 text-[#FBBF24]" />
           <h2 className="text-3xl text-gray-300 bg-clip-text">
             Top Performers
           </h2>
-          <Trophy className="h-8 w-8 text-google-yellow" />
+          <Trophy className="h-8 w-8 text-[#FBBF24]" />
         </div>
         <p className="text-gray-300 text-lg">
           Celebrating our leading Cloud Study Jams participants
@@ -82,17 +65,12 @@ export default function TopThreeSpotlight({
             >
               <div
                 className={`
-                ${config.height} ${config.bgGradient} rounded-3xl p-8 
-                shadow-2xl transform hover:scale-105 transition-all duration-300
-                border-2 ${config.borderColor}
+                ${config.height} rounded-3xl p-8 
+                shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 border-[#FFD700]
               `}
               >
                 <div className="text-center h-full flex flex-col justify-between">
                   <div className="space-y-4">
-                    <div className="flex justify-center">{config.icon}</div>
-                    <div className="text-white font-bold text-xl">
-                      {config.title}
-                    </div>
                     <div className="text-white/90 text-base">
                       Rank #{student.rank}
                     </div>
