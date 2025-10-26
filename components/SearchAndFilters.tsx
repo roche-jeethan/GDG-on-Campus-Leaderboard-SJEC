@@ -62,7 +62,7 @@ export default function SearchAndFilters({
   ];
 
   return (
-    <div className="bg-gray-800 rounded-xl mt-40 shadow-lg p-6 mb-8 border border-gray-700">
+    <div className="bg-gray-800 rounded-xl mt-55 shadow-lg p-6 mb-8 border border-gray-700">
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1">
           <div className="relative">

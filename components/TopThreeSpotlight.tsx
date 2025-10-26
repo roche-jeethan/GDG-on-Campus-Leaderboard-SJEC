@@ -1,7 +1,7 @@
 "use client";
 
 import { Student } from "@/lib/types";
-import { Crown, Award, Medal } from "lucide-react";
+import { Crown, Award, Medal, Trophy } from "lucide-react";
 import { RANK_COLORS } from "@/lib/colors";
 
 interface TopThreeSpotlightProps {
@@ -21,7 +21,7 @@ export default function TopThreeSpotlight({
         return {
           bgGradient: RANK_COLORS.gold.bg,
           borderColor: RANK_COLORS.gold.border,
-          icon: <Crown className="h-8 w-8 text-white" />,
+          icon: <Crown className="h-8 w-8 text-yellow-400" />,
           title: "Champion",
           height: "h-72",
           order: "order-2",
@@ -30,7 +30,7 @@ export default function TopThreeSpotlight({
         return {
           bgGradient: RANK_COLORS.silver.bg,
           borderColor: RANK_COLORS.silver.border,
-          icon: <Award className="h-6 w-6 text-white" />,
+          icon: <Award className="h-6 w-6 text-gray-400" />,
           title: "Runner-up",
           height: "h-64",
           order: "order-1",
@@ -39,7 +39,7 @@ export default function TopThreeSpotlight({
         return {
           bgGradient: RANK_COLORS.bronze.bg,
           borderColor: RANK_COLORS.bronze.border,
-          icon: <Medal className="h-6 w-6 text-white" />,
+          icon: <Medal className="h-6 w-6 text-amber-700" />,
           title: "Third Place",
           height: "h-56",
           order: "order-3",
@@ -47,6 +47,7 @@ export default function TopThreeSpotlight({
       default:
         return {
           bgGradient: "bg-gradient-google-blue",
+          borderColor: "border-google-blue",
           icon: <Award className="h-6 w-6 text-white" />,
           title: "Top Performer",
           height: "h-48",
@@ -58,9 +59,13 @@ export default function TopThreeSpotlight({
   return (
     <div className="mb-16">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold bg-gradient-to-r from-google-yellow via-google-red to-google-blue bg-clip-text text-transparent mb-4">
-          🏆 Top Performers 🏆
-        </h2>
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <Trophy className="h-8 w-8 text-google-yellow" />
+          <h2 className="text-3xl text-gray-300 bg-clip-text">
+            Top Performers
+          </h2>
+          <Trophy className="h-8 w-8 text-google-yellow" />
+        </div>
         <p className="text-gray-300 text-lg">
           Celebrating our leading Cloud Study Jams participants
         </p>
